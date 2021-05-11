@@ -46,7 +46,6 @@ public class MemberController {
 
     @PostMapping("/login")
     public SingleResult<Map<String, String>> login (@Valid @RequestBody MemberSignInDto memberSignInDto){
-        System.out.println("-----------------------------");
         final Member member = memberService.login(memberSignInDto.getName(),memberSignInDto.getPassword());
         Map<String, String> map = new HashMap<>();
         return responseService.getSingleResult(map);

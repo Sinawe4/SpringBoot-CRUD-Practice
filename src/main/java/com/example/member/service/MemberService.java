@@ -1,6 +1,7 @@
 package com.example.member.service;
 
 
+import com.example.member.advice.exception.UserLoginFailedException;
 import com.example.member.domain.Member;
 import com.example.member.dto.MemberResponseDto;
 import com.example.member.dto.MemberSaveRequestDto;
@@ -49,9 +50,7 @@ public class MemberService {
 
     public Member login(String name, String password){
         Member member = memberRepository.findByName(name);
-        System.out.println("--------------------------");
-        System.out.println(member);
-        System.out.println(name);
+        if (member == null)throw new UserLoginFailedException();
         return member;
     }
 
