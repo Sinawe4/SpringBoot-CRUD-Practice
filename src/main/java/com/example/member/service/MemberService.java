@@ -6,7 +6,7 @@ import com.example.member.domain.Member;
 import com.example.member.dto.MemberResponseDto;
 import com.example.member.dto.MemberSaveRequestDto;
 import com.example.member.dto.MemberUpdateRequest;
-import com.example.member.advice.exception.UserAlreadtExistsException;
+import com.example.member.advice.exception.UserAlreadyExistsException;
 import com.example.member.advice.exception.UserNotFoundException;
 import com.example.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class MemberService {
     //save
     public Long save(MemberSaveRequestDto requestDto) {
         if (memberRepository.findByName(requestDto.getName()) != null){
-            throw new UserAlreadtExistsException();
+            throw new UserAlreadyExistsException();
         }
         return memberRepository.save(requestDto.toEntity()).getId();
     }
