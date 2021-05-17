@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RequiredArgsConstructor
 @Configuration
-@EnableWebSecurity //(debug = true)
+@EnableWebSecurity //(debug = true) <- filter 보여줌
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
     @Override
