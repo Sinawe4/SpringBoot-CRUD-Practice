@@ -10,6 +10,7 @@ import com.example.member.advice.exception.UserAlreadyExistsException;
 import com.example.member.advice.exception.UserNotFoundException;
 import com.example.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,12 +19,14 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     //save
     public Long save(MemberSaveRequestDto requestDto) {
         if (memberRepository.findByName(requestDto.getName()) != null){
             throw new UserAlreadyExistsException();
         }
+        requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         return memberRepository.save(requestDto.toEntity()).getId();
     }
 
@@ -51,6 +54,9 @@ public class MemberService {
     public Member login(String name, String password){
         Member member = memberRepository.findByName(name);
         if (member == null)throw new UserLoginFailedException();
+        boolean passwordCheck = passwordEncoder.matches(password, member.getPassword());
+        System.out.println("passwordCheck = " + passwordCheck);
+        if (!passwordCheck) throw new UserLoginFailedException();
         return member;
     }
 
